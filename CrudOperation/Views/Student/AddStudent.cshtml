@@ -1,0 +1,17 @@
+﻿@model CrudOperation.Models.AddStudentViewModel
+
+@{
+}
+<h1>Add Students</h1>
+<form method="post" action="Add">
+    <div class="form-group">
+        <label >Name</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Enter name">
+    </div>
+    <div class="form-group">
+        <label>Email address</label>
+        <input type="email" class="form-control" asp-for="Email" placeholder="Enter email">
+    </div>
+  
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
