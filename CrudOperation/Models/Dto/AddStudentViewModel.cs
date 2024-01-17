@@ -1,4 +1,4 @@
-﻿namespace CrudOperation.Models
+﻿namespace CrudOperation.Models.Dto
 {
     public class AddStudentViewModel
     {

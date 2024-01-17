@@ -1,6 +1,8 @@
 ﻿using CrudOperation.Data;
 using CrudOperation.Models;
+using CrudOperation.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrudOperation.Controllers
 {
@@ -11,6 +13,14 @@ namespace CrudOperation.Controllers
         public StudentController(MvcDbContext mvcDbContext)
         {
             this.mvcDbContext = mvcDbContext;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            var students = await mvcDbContext.Students.ToListAsync();
+
+            return View(students);
         }
 
         [HttpGet]
@@ -31,7 +41,58 @@ namespace CrudOperation.Controllers
 
             await mvcDbContext.Students.AddAsync(Student);
             await mvcDbContext.SaveChangesAsync();
-            return RedirectToAction("AddStudent");
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> View(Guid id)
+        {
+            var student = mvcDbContext.Students.SingleOrDefault(x => x.Id == id);
+
+            if (student != null) {
+
+                var viewModel = new UpdateStudentViewModel()
+                {
+                    Id = id,
+                    Name = student.Name,
+                    Email = student.Email,
+                };
+
+                return await Task.Run(() => View("View",viewModel));          
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> View(UpdateStudentViewModel model)
+        {
+            var student = await mvcDbContext.Students.FindAsync(model.Id);
+
+            if (student != null)
+            {
+                student.Name = model.Name;
+                student.Email = model.Email;             
+
+                await mvcDbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(UpdateStudentViewModel model)
+        {
+            var student = await mvcDbContext.Students.FindAsync(model.Id);
+
+            if (student != null)
+            {
+                mvcDbContext.Students.Remove(student);
+                await mvcDbContext.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,0 +1,23 @@
+﻿@model List<CrudOperation.Models.Student>
+@{
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Id</td>
+                <td>@student.Name</td>
+                <td>@student.Email</td>
+                <td><a href="Student/View/@student.Id">View</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
