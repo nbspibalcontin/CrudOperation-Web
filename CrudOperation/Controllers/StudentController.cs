@@ -15,6 +15,7 @@ namespace CrudOperation.Controllers
             this.mvcDbContext = mvcDbContext;
         }
 
+        // Display all student data in Table
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -23,12 +24,14 @@ namespace CrudOperation.Controllers
             return View(students);
         }
 
+        // View student form to create student
         [HttpGet]
         public IActionResult AddStudent()
         {
             return View();
         }
 
+        // Create Student 
         [HttpPost]
         public async Task<IActionResult> Add(AddStudentViewModel addStudentViewModelRequest)
         {
@@ -43,7 +46,8 @@ namespace CrudOperation.Controllers
             await mvcDbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
+        
+        // View the student by Id
         [HttpGet]
         public async Task<IActionResult> View(Guid id)
         {
@@ -63,6 +67,7 @@ namespace CrudOperation.Controllers
             return RedirectToAction("Index");
         }
 
+        //Update student data
         [HttpPost]
         public async Task<IActionResult> View(UpdateStudentViewModel model)
         {
@@ -80,6 +85,7 @@ namespace CrudOperation.Controllers
             return RedirectToAction("Index");
         }
 
+        //Delete Student data
         [HttpPost]
         public async Task<IActionResult> Delete(UpdateStudentViewModel model)
         {
